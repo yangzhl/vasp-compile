@@ -1,1 +1,19 @@
-../makefile.lwannier.soc0.0
+VERSIONS = std_soc0.0 gam_soc0.0 ncl_soc0.0 std_wan_soc0.0 ncl_wan_soc0.0 gam_wan_soc0.0 gpu_soc0.0 gpu_ncl_soc0.0 
+
+.PHONY: all veryclean versions $(VERSIONS)
+
+all: std_soc0.0 gam_soc0.0 ncl_soc0.0
+
+versions: $(VERSIONS)
+
+$(VERSIONS):
+	mkdir build/$@ ; \
+	cp src/makefile src/.objects makefile.include build/$@ ; \
+	$(MAKE) -C build/$@ VERSION=$@ 
+#	$(MAKE) -C build/$@ VERSION=$@ all
+#	$(MAKE) -C build/$@ VERSION=$@ dependencies -j1 ; \
+#	$(MAKE) -C build/$@ VERSION=$@ all
+
+
+veryclean: 
+	rm -rf build/*

@@ -1,1 +1,21 @@
-../makefile.lwannier
+VERSIONS = std gam ncl gpu gpu_ncl std_wan ncl_wan gam_wan gpu_wan gpu_ncl_wan 
+
+.PHONY: all veryclean versions $(VERSIONS)
+
+vasp_gpu: gpu gpu_ncl gpu_wan gpu_ncl_wan
+
+all: std gam ncl
+
+versions: $(VERSIONS)
+
+$(VERSIONS):
+	mkdir build/$@ ; \
+	cp src/makefile src/.objects makefile.include build/$@ ; \
+	$(MAKE) -C build/$@ VERSION=$@ all
+#	$(MAKE) -C build/$@ VERSION=$@ all
+#	$(MAKE) -C build/$@ VERSION=$@ dependencies -j1 ; \
+#	$(MAKE) -C build/$@ VERSION=$@ all
+
+
+veryclean: 
+	rm -rf build/*
